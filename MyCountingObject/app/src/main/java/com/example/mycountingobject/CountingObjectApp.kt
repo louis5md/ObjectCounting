@@ -1,0 +1,67 @@
+package com.example.mycountingobject
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.mycountingobject.component.MyCamera
+import com.example.mycountingobject.component.MyDropDownMenu
+import com.example.mycountingobject.ui.theme.MyCountingObjectTheme
+
+@Composable
+fun CountingObjectApp(
+    modifier: Modifier = Modifier,
+) {
+    var isExpanded by remember { mutableStateOf(false) }
+    var isCounting by remember { mutableStateOf(false) }
+    var objectCounted by remember { mutableStateOf(0) }
+
+    // Create a list of cities
+    val listMachine = stringArrayResource(id = R.array.list_machine).toList()
+
+    // Create a string value to store the selected city
+    var mSelectedText by remember { mutableStateOf("") }
+    Column(
+        modifier = Modifier
+            .wrapContentHeight(Alignment.Top),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        MyDropDownMenu(
+            isExpanded = isExpanded,
+            listItem = listMachine,
+            onDismissRequest = {isExpanded = false },
+            onClick = {
+                mSelectedText = it
+                isExpanded = false
+            },
+            onValueChange = {mSelectedText = it},
+            text = mSelectedText,
+            onIconClick = {isExpanded = !isExpanded},
+            modifier = modifier,
+        )
+
+        Button(
+            onClick = { isCounting = !isCounting },
+        ) {
+            Text(text = if(!isCounting) "Start Counting" else "Stop Counting")
+        }
+        Text(text = stringResource(id = R.string.button_counting, objectCounted))
+        MyCamera(modifier = Modifier.padding(20.dp))
+    }
+}
+
+@Preview(
+    name = "tampilan utama",
+    showBackground = true)
+@Composable
+fun CountingObjectAppPreview() {
+    MyCountingObjectTheme {
+        CountingObjectApp()
+    }
+}
