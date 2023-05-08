@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mycountingobject.component.MyCamera
 import com.example.mycountingobject.component.MyDropDownMenu
+import com.example.mycountingobject.component.MyOneLineRadioButton
 import com.example.mycountingobject.ui.theme.MyCountingObjectTheme
 
 @Composable
@@ -21,6 +22,7 @@ fun CountingObjectApp(
     var isExpanded by remember { mutableStateOf(false) }
     var isCounting by remember { mutableStateOf(false) }
     var objectCounted by remember { mutableStateOf(0) }
+    var optionSelected by remember { mutableStateOf("") }
 
     // Create a list of cities
     val listMachine = stringArrayResource(id = R.array.list_machine).toList()
@@ -45,7 +47,10 @@ fun CountingObjectApp(
             onIconClick = {isExpanded = !isExpanded},
             modifier = modifier,
         )
-
+        MyOneLineRadioButton(
+            listOptions = listOf("IN","OUT","REJECT"),
+            optionSelected = optionSelected,
+            onClick = {optionSelected = it},)
         Button(
             onClick = { isCounting = !isCounting },
         ) {

@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">MyCountingObject</string>
     <string-array name="list_machine">
-        <item>First Machine (IN)</item>
-        <item>Second Machine (OUT)</item>
-        <item>Third Machine (REJECT)</item>
+        <item>First Machine</item>
+        <item>Second Machine</item>
+        <item>Third Machine</item>
     </string-array>
 
     <string name="button_counting">Object counted: %1$d</string>
