@@ -6,6 +6,9 @@
         <item>Third Machine</item>
     </string-array>
 
+    <string name="menu_counting">counting</string>
+    <string name="menu_overview">overview</string>
+
     <string name="button_counting">Object counted: %1$d</string>
     <string name="machine_overview_in">IN\t: %1$d</string>
     <string name="machine_overview_out">OUT\t: %1$d</string>
