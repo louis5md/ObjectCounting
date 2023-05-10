@@ -31,7 +31,9 @@ fun OverviewScreen(
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)){
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        userScrollEnabled = true,
+        modifier = modifier.fillMaxSize()){
         items(dummyData){data->
             ItemMachine(data = data)
         }

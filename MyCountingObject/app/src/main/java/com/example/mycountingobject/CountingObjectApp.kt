@@ -1,10 +1,13 @@
 package com.example.mycountingobject
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,6 +22,8 @@ import com.example.mycountingobject.ui.navigation.NavigationItem
 import com.example.mycountingobject.ui.navigation.Screen
 import com.example.mycountingobject.ui.screen.CountingScreen
 import com.example.mycountingobject.ui.screen.OverviewScreen
+import com.example.mycountingobject.ui.screen.ProfileScreen
+import com.example.mycountingobject.ui.screen.SettingScreen
 import com.example.mycountingobject.ui.theme.MyCountingObjectTheme
 
 @Composable
@@ -31,28 +36,65 @@ fun CountingObjectApp(
 
     Scaffold(
         topBar = {
-            if (currentRoute == Screen.Overview.route) {
+            if (currentRoute == Screen.Home.route) {
                 TopAppBar(title = { Text(text = "Overview") })
             }
         },
-        bottomBar = { BottomBar(navController = navController)},
+        floatingActionButton = {
+            if(currentRoute == Screen.Home.route){
+                FloatingButton(navController = navController)
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
+        isFloatingActionButtonDocked = false,
+        bottomBar = {
+            if (currentRoute != Screen.Counting.route) {
+                BottomBar(navController = navController)
+            }},
         modifier = modifier,
     ){ innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Overview.route,
+            startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ){
             composable(Screen.Counting.route){
                 CountingScreen()
             }
-            composable(Screen.Overview.route){
+            composable(Screen.Home.route){
                 OverviewScreen()
+            }
+            composable(Screen.Profile.route){
+                ProfileScreen()
+            }
+            composable(Screen.Setting.route){
+                SettingScreen()
             }
         }
     }
 }
 
+
+@Composable
+private fun FloatingButton(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+){
+    FloatingActionButton(
+        shape = CircleShape,
+        onClick = {
+            navController.navigate(Screen.Counting.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                restoreState = true
+                launchSingleTop = true
+            }
+        }
+    ) {
+        Icon(Icons.Default.Add, contentDescription = null)
+    }
+}
 
 @Composable
 private fun BottomBar(
@@ -68,14 +110,19 @@ private fun BottomBar(
 
         val navigationItems = listOf(
             NavigationItem(
-                title = stringResource(R.string.menu_overview),
-                icon = Icons.Default.Home,
-                screen = Screen.Overview
+                title = stringResource(R.string.menu_setting),
+                icon = Icons.Default.Settings,
+                screen = Screen.Setting
             ),
             NavigationItem(
-                title = stringResource(R.string.menu_counting),
-                icon = Icons.Default.Add,
-                screen = Screen.Counting
+                title = stringResource(R.string.menu_home),
+                icon = Icons.Default.Home,
+                screen = Screen.Home
+            ),
+            NavigationItem(
+                title = stringResource(R.string.menu_profile),
+                icon = Icons.Default.Person,
+                screen = Screen.Profile
             ),
         )
         BottomNavigation {

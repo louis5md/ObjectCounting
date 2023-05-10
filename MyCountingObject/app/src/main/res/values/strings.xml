@@ -7,7 +7,9 @@
     </string-array>
 
     <string name="menu_counting">counting</string>
-    <string name="menu_overview">overview</string>
+    <string name="menu_home">home</string>
+    <string name="menu_setting">setting</string>
+    <string name="menu_profile">profile</string>
 
     <string name="button_counting">Object counted: %1$d</string>
     <string name="machine_overview_in">IN\t: %1$d</string>
