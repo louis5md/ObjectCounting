@@ -1,160 +1,72 @@
 package com.example.mycountingobject
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.example.mycountingobject.ui.navigation.NavigationItem
-import com.example.mycountingobject.ui.navigation.Screen
-import com.example.mycountingobject.ui.screen.CountingScreen
-import com.example.mycountingobject.ui.screen.OverviewScreen
-import com.example.mycountingobject.ui.screen.ProfileScreen
-import com.example.mycountingobject.ui.screen.SettingScreen
+import androidx.compose.ui.unit.dp
+import com.example.mycountingobject.ui.component.MyCamera
+import com.example.mycountingobject.ui.component.MyDropDownMenu
+import com.example.mycountingobject.ui.component.MyOneLineRadioButton
 import com.example.mycountingobject.ui.theme.MyCountingObjectTheme
+
 
 @Composable
 fun CountingObjectApp(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
-    Scaffold(
-        topBar = {
-            if (currentRoute == Screen.Home.route) {
-                TopAppBar(title = { Text(text = "Overview") })
-            }
-        },
-        floatingActionButton = {
-            if(currentRoute == Screen.Home.route){
-                FloatingButton(navController = navController)
-            }
-        },
-        floatingActionButtonPosition = FabPosition.End,
-        isFloatingActionButtonDocked = false,
-        bottomBar = {
-            if (currentRoute != Screen.Counting.route) {
-                BottomBar(navController = navController)
-            }},
-        modifier = modifier,
-    ){ innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = Screen.Home.route,
-            modifier = Modifier.padding(innerPadding)
-        ){
-            composable(Screen.Counting.route){
-                CountingScreen()
-            }
-            composable(Screen.Home.route){
-                OverviewScreen()
-            }
-            composable(Screen.Profile.route){
-                ProfileScreen()
-            }
-            composable(Screen.Setting.route){
-                SettingScreen()
-            }
-        }
-    }
-}
-
-
-@Composable
-private fun FloatingButton(
-    navController: NavHostController,
-    modifier: Modifier = Modifier,
 ){
-    FloatingActionButton(
-        shape = CircleShape,
-        onClick = {
-            navController.navigate(Screen.Counting.route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
-                restoreState = true
-                launchSingleTop = true
-            }
-        }
+    var isExpanded by remember { mutableStateOf(false) }
+    var isCounting by remember { mutableStateOf(false) }
+    val objectCounted by remember { mutableStateOf(0) }
+    var optionSelected by remember { mutableStateOf("") }
+
+    // Create a list of machine
+    val listMachine = stringArrayResource(id = R.array.list_machine).toList()
+
+    // Create a string value to store the selected machine
+    var mSelectedText by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .wrapContentHeight(Alignment.Top),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Icon(Icons.Default.Add, contentDescription = null)
-    }
-}
-
-@Composable
-private fun BottomBar(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
-) {
-    BottomNavigation(
-        modifier = modifier
-    ) {
-
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
-        val navigationItems = listOf(
-            NavigationItem(
-                title = stringResource(R.string.menu_setting),
-                icon = Icons.Default.Settings,
-                screen = Screen.Setting
-            ),
-            NavigationItem(
-                title = stringResource(R.string.menu_home),
-                icon = Icons.Default.Home,
-                screen = Screen.Home
-            ),
-            NavigationItem(
-                title = stringResource(R.string.menu_profile),
-                icon = Icons.Default.Person,
-                screen = Screen.Profile
-            ),
+        MyDropDownMenu(
+            isExpanded = isExpanded,
+            listItem = listMachine,
+            onDismissRequest = {isExpanded = false },
+            onClick = {
+                mSelectedText = it
+                isExpanded = false
+            },
+            onValueChange = {mSelectedText = it},
+            text = mSelectedText,
+            onIconClick = {isExpanded = !isExpanded},
+            modifier = modifier,
         )
-        BottomNavigation {
-            navigationItems.map { item ->
-                BottomNavigationItem(
-                    icon = {
-                        Icon(
-                            imageVector = item.icon,
-                            contentDescription = item.title
-                        )
-                    },
-                    label = { Text(item.title) },
-                    selected = currentRoute == item.screen.route,
-                    onClick = {
-                        navController.navigate(item.screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            restoreState = true
-                            launchSingleTop = true
-                        }
-                    }
-                )
-            }
+        MyOneLineRadioButton(
+            listOptions = listOf("IN","OUT","REJECT"),
+            optionSelected = optionSelected,
+            onClick = {optionSelected = it},
+        )
+        Button(
+            onClick = { isCounting = !isCounting },
+        ) {
+            Text(text = if(!isCounting) "Start Counting" else "Stop Counting")
         }
+        Text(text = stringResource(id = R.string.button_counting, objectCounted))
+        MyCamera(modifier = Modifier.padding(50.dp))
     }
 }
 
-
-@Preview(
-    name = "tampilan utama",
-    showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun CountingObjectAppPreview() {
     MyCountingObjectTheme {
