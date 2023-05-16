@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MyOverview</string>
+    <string-array name="list_machine">
+        <item>First Machine</item>
+        <item>Second Machine</item>
+        <item>Third Machine</item>
+    </string-array>
+
+    <string name="menu_counting">counting</string>
+    <string name="menu_home">home</string>
+    <string name="menu_setting">setting</string>
+    <string name="menu_profile">profile</string>
+
+    <string name="button_counting">Object counted: %1$d</string>
+    <string name="machine_overview_in">IN\t: %1$d</string>
+    <string name="machine_overview_out">OUT\t: %1$d</string>
+    <string name="machine_overview_reject">REJECT\t: %1$d</string>
+</resources>
