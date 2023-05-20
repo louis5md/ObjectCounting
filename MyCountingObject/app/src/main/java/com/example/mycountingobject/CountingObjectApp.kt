@@ -31,7 +31,7 @@ fun CountingObjectApp(
 ){
     var isExpanded by remember { mutableStateOf(false) }
     var isCounting by remember { mutableStateOf(false) }
-    val objectCounted by remember { mutableStateOf(0) }
+    var objectCounted by remember { mutableStateOf(0) }
     var optionSelected by remember { mutableStateOf("") }
     val model = Yolov5sFp16.newInstance(LocalContext.current)
     val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
@@ -80,6 +80,9 @@ fun CountingObjectApp(
         MyCamera(
             isCounting= isCounting,
             modifier = Modifier.padding(50.dp),
+            onCount = {
+                objectCounted++
+            }
         )
     }
 }

@@ -33,12 +33,12 @@ import java.util.concurrent.Executors
 fun MyCamera(
     modifier: Modifier = Modifier,
     isCounting: Boolean,
+    onCount: () -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
     val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
     val tracker = remember { mutableSetOf<Int>() }
-    var count = remember { 0 }
     if (isCounting){
         AndroidView(
             factory = { ctx ->
@@ -111,13 +111,10 @@ fun MyCamera(
                                         if(temp != null){
                                             if (temp.boundingBox.centerX() > w){
                                                 tracker.remove(idx)
-                                                count += 1
-                                                Log.e("TEST_COUNTER", "count: $count")
+                                                onCount()
                                             }
                                         }
                                     }
-                                    Log.e("TEST_COUNTER", "count: $count")
-                                    Log.e("TEST_COUNTER", "size: ${tracker.size}")
                                     imageProxy.close()
                                 }
                                 .addOnFailureListener{e->
