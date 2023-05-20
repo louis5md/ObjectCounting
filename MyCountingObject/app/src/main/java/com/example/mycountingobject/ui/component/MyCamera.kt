@@ -53,7 +53,7 @@ fun MyCamera(
 
                 // view for vertical line
                 val verticalLine = View(ctx)
-                verticalLine.setBackgroundColor(android.graphics.Color.GREEN)
+                verticalLine.setBackgroundColor(android.graphics.Color.RED)
                 val lineParams = LayoutParams(
                     2,
                     LayoutParams.MATCH_PARENT
@@ -100,21 +100,44 @@ fun MyCamera(
                             objectDetector
                                 .process(processImage)
                                 .addOnSuccessListener{objects ->
+                                    // check if no item detected
+                                    if(objects.isEmpty()){
+                                        imageProxy.close()
+                                        return@addOnSuccessListener
+                                    }
+
+                                    var setGreen = false
+                                    // track items
                                     for(obj in objects){
                                         if(obj.boundingBox.centerX() < w){
-                                            Log.e("TEST_COUNTER", "width: $w - cord: ${obj.boundingBox.centerX()}")
-                                            obj.trackingId?.let { id -> tracker.add(id) }
+                                            obj.trackingId?.let { id ->
+                                                tracker.add(id)
+                                            }
                                         }
                                     }
+                                    objects.minBy { it.trackingId as Int }.trackingId?.let {min->
+                                        tracker.removeIf { it < min }
+                                    }
+
+                                    // count if item passed the vertical line
                                     for(idx in tracker){
                                         val temp = objects.find { it.trackingId == idx }
                                         if(temp != null){
                                             if (temp.boundingBox.centerX() > w){
                                                 tracker.remove(idx)
                                                 onCount()
+                                                setGreen = true
                                             }
                                         }
                                     }
+
+                                    // Set line green
+                                    if(setGreen){
+                                        verticalLine.setBackgroundColor(android.graphics.Color.GREEN)
+                                    } else {
+                                        verticalLine.setBackgroundColor(android.graphics.Color.RED)
+                                    }
+
                                     imageProxy.close()
                                 }
                                 .addOnFailureListener{e->

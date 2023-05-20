@@ -9,12 +9,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.mycountingobject.ml.Yolov5sFp16
 import com.example.mycountingobject.ui.component.MyCamera
 import com.example.mycountingobject.ui.component.MyDropDownMenu
 import com.example.mycountingobject.ui.component.MyOneLineRadioButton
@@ -33,7 +31,6 @@ fun CountingObjectApp(
     var isCounting by remember { mutableStateOf(false) }
     var objectCounted by remember { mutableStateOf(0) }
     var optionSelected by remember { mutableStateOf("") }
-    val model = Yolov5sFp16.newInstance(LocalContext.current)
     val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
 
     // Create a list of machine
@@ -79,7 +76,7 @@ fun CountingObjectApp(
         Text(text = stringResource(id = R.string.button_counting, objectCounted))
         MyCamera(
             isCounting= isCounting,
-            modifier = Modifier.padding(50.dp),
+            modifier = Modifier.padding(10.dp),
             onCount = {
                 objectCounted++
             }
