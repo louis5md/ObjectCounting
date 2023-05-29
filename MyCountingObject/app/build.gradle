@@ -75,4 +75,7 @@ dependencies {
 
     // object detection custom model
     implementation 'com.google.mlkit:object-detection-custom:17.0.0'
+
+    // datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }
