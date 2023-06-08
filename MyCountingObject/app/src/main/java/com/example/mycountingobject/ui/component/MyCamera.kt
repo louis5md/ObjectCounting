@@ -165,7 +165,7 @@ fun MyCamera(
     } else {
         cameraProviderFuture.get().unbindAll()
         Box(modifier = modifier
-            .fillMaxSize()
+                .fillMaxSize()
             .background(Color.Black))
     }
 }

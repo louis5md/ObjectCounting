@@ -3,7 +3,6 @@ package com.example.mycountingobject
 import android.Manifest
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -13,15 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mycountingobject.ui.component.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -55,18 +51,19 @@ fun CountingObjectApp(
                     permissionState.launchPermissionRequest()
                 } else {
                     isCounting = !isCounting
-                } })
+                } }
+        )
     }else{
         WhileCounting(
             objectCounted = objectCounted,
             optionSelected = optionSelected,
             mSelectedText = mSelectedText,
             onCLickButton = { isCounting = !isCounting },
-            onCount = { objectCounted += 1 })
+            onCount = { objectCounted += 1 }
+        )
     }
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun BeforeCounting(
     objectCounted: Int,
@@ -95,7 +92,8 @@ fun BeforeCounting(
                 fontSize = 18.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.Start))
+                modifier = Modifier.align(Alignment.Start)
+            )
             MyDropDownMenu(
                 listItem = listMachine,
                 onClick = onClickMachine,
@@ -109,7 +107,8 @@ fun BeforeCounting(
                 fontSize = 18.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.Start))
+                modifier = Modifier.align(Alignment.Start)
+            )
             MyOneLineRadioButton(
                 listOptions = listOf("IN","OUT","REJECT"),
                 optionSelected = optionSelected,
@@ -139,7 +138,6 @@ fun BeforeCounting(
 
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun WhileCounting(
     objectCounted: Int,
