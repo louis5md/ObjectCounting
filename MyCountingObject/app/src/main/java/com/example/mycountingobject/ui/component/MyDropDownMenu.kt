@@ -39,7 +39,6 @@ fun MyDropDownMenu(
 
     Column(
         modifier = modifier
-            .padding(20.dp)
             .wrapContentHeight(Alignment.Top),
     ) {
         OutlinedTextField(
