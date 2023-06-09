@@ -24,12 +24,12 @@ import com.google.accompanist.permissions.rememberPermissionState
 @Composable
 fun CountingObjectApp(
     modifier: Modifier = Modifier,
-    dataStoreUtil: DataStoreUtil,
+    username: String,
+    photoUrl: String,
 ){
     var isCounting by remember { mutableStateOf(false) }
     var objectCounted by remember { mutableStateOf(0) }
     var optionSelected by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
     val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
 
     // Create a list of machine
@@ -51,7 +51,10 @@ fun CountingObjectApp(
                     permissionState.launchPermissionRequest()
                 } else {
                     isCounting = !isCounting
-                } }
+                }
+            },
+            username = username,
+            photoUrl = photoUrl,
         )
     }else{
         WhileCounting(
@@ -75,6 +78,8 @@ fun BeforeCounting(
     onClickParameter: (String)->Unit,
     onCLickButton: ()->Unit,
     modifier: Modifier = Modifier,
+    username: String,
+    photoUrl: String,
 ){
     Box(
         modifier = modifier
@@ -87,6 +92,13 @@ fun BeforeCounting(
                 .padding(bottom = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            UserInformation(
+                linkPhoto = photoUrl,
+                username = username,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp)
+            )
             Text(
                 text ="Mesin",
                 fontSize = 18.sp,

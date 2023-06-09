@@ -19,18 +19,13 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var dataStoreUtil: DataStoreUtil
     private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dataStoreUtil = DataStoreUtil(applicationContext)
-        CoroutineScope(Dispatchers.Default).launch {
-            dataStoreUtil.saveTheme(false)
-        }
 
         auth = Firebase.auth
         val firebaseUser = auth.currentUser
+
         if (firebaseUser == null) {
             // Not signed in, launch the Login activity
             startActivity(Intent(this, LoginActivity::class.java))
@@ -38,14 +33,20 @@ class MainActivity : ComponentActivity() {
             return
         }
 
+        val username = firebaseUser.displayName as String
+        val photoUrl = firebaseUser.photoUrl.toString()
+
         setContent {
-            MyCountingObjectTheme(darkTheme = dataStoreUtil.getTheme(false).collectAsState(initial = false).value) {
+            MyCountingObjectTheme() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    CountingObjectApp(dataStoreUtil = dataStoreUtil)
+                    CountingObjectApp(
+                        username = username,
+                        photoUrl = photoUrl
+                    )
                 }
             }
         }

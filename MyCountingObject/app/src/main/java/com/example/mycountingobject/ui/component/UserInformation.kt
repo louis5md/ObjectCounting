@@ -33,25 +33,25 @@ fun UserInformation(
             painter = rememberAsyncImagePainter(linkPhoto),
             contentDescription = "Photo Profile",
             modifier = Modifier
-                .size(100.dp)
+                .size(50.dp)
                 .clip(CircleShape)
         )
 
         Column(
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
+                .padding(start = 10.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.user_name, username),
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
-                fontSize = 27.sp
+                fontSize = 20.sp
             )
-            Spacer(modifier = Modifier.height(15.dp))
             Text(
                 text = stringResource(id = R.string.greeting),
                 color = Color.LightGray,
-                fontSize = 19.sp
+                fontSize = 15.sp
             )
         }
     }
