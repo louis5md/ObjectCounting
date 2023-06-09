@@ -1,5 +1,8 @@
 # Object Counting
 
+## Overview
+MyCountingObject is a computer vision app designed to count various objects as they pass by on a conveyor belt. On the other hand, MyOverview serves as an application to collect the data sent by MyCountingObject and provide a summary of it.
+
 ## Requirement
 - Android Studio 2022.1.1 RC 1
 - Android Gradle Plugin Version: 7.4.2
@@ -18,3 +21,8 @@ Make sure you have installed the required SDK and prepared the virtual device/em
 
 ## Others
 MyOverview application is still under development process and currently waiting for the API to be implemented, therefore some features maybe not implemented yet 
+
+## Authors
+- Louis Riemenn
+- Giant Andreas Tambunan
+- Sharon Bernadetha Marbun
