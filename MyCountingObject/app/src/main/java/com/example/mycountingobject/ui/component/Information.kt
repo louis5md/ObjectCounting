@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mycountingobject.ui.theme.LightBlue
 import com.example.mycountingobject.ui.theme.MyCountingObjectTheme
 import com.example.mycountingobject.ui.theme.Shapes
 
@@ -56,7 +57,7 @@ fun MyBigInformation(
         modifier = modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .background(color = Color.Cyan, shape = Shapes.medium)
+            .background(color = LightBlue, shape = Shapes.medium)
 
     ){
         Column(

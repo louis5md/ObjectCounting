@@ -15,4 +15,6 @@
     <string name="machine_overview_in">IN\t: %1$d</string>
     <string name="machine_overview_out">OUT\t: %1$d</string>
     <string name="machine_overview_reject">REJECT\t: %1$d</string>
+    <string name="user_name">Hello, %1$s</string>
+    <string name="greeting">Good morning</string>
 </resources>
